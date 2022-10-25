@@ -1,158 +1,120 @@
 import React, { useState } from 'react'
-
-//1-metod polucheniya znacheniy ot inputa
-
-// const AddInputs = (props) => {
-// const [title, setTitle] = useState('')
-// const [number, setNumber] = useState('')
-// const [date, setDate] = useState('')
-
-// const titleChange = (event) => {
-//     setTitle(event.target.value)
-// }
-// const numberChange = (event) => {
-//     setNumber(event.target.value)
-// }
-
-// const dateChange = (event) => {
-//     setDate(event.target.value)
-// }
-
-// const buttonUser = (event) => {
-// event.preventDefault()
-// props.onTransfer(title, number, date);
-// };
-
-// return (
-//     <div>
-//         <form  onSubmit={buttonUser}>
-//             <label>Title</label>
-//             <br/>
-//             <input type="text" value={title}  onChange={titleChange} />
-//             <br/>
-//             <label>Amount</label>
-//             <br/>
-//             <input type="number" value={number} onChange={numberChange} />
-//             <br/>
-//             <label>Date</label>
-//             <br/>
-//             <input type="date" value={date} onChange={dateChange} />
-//              <br/>
-//              <br/>
-             
-//             <button type="submit">Add</button>
-//         </form>
-//     </div>
-//   )
-// }
+import styled from 'styled-components'
 
 
+const Container = styled.div`
+background: #221b1b;
+width: 350px;
+margin:auto;
+padding-left: 5%;
+border-radius: 6px;
+direction:flex;
+`
+const Input = styled.input`
+background: #658765;
+border-radius: 5px;
+text-align: center;
+width: 300px;
+height: 25px;
+font-size: 20px;
+`
+const Button = styled.button`
+background: #22820d;
+color: white;
+width:80px;
+height: 30px;
+font-size:20px;
+`
 
-//2-metod
-
-// const AddInputs = (props) => {
-
-//     const [userInput ,  setUserInput] = useState({
-//         title: "",
-//         number: "",
-//         date: "",
-//     })
-
-//     const titleChange = (event) => {
-//         setUserInput({
-//             ...userInput,
-//             title: event.target.value,
-//         });
-// }
-// const numberChange = (event) => {
-//     setUserInput({
-//         ...userInput,
-//         number: event.target.value,
-//     });
-// }
-
-
-// const dateChange = (event) => {
-//     setUserInput({
-//         ...userInput,
-//         date: event.target.value,
-//     });
-// };
+const Text = styled.label`
+    color: white;
+    font-size:20px;
+`
 
 
-// const buttonUser = (event) => {
-// event.preventDefault()
-// props.onTransfer(userInput.title, userInput.number, userInput.date);
-// };
-
-// return (
-//     <div>
-//         <form  onSubmit={buttonUser}>
-//             <label>Title</label>
-//             <br/>
-//             <input type="text" value={userInput.title}  onChange={titleChange} />
-//             <br/>
-//             <label>Amount</label>
-//             <br/>
-//             <input type="number" value={userInput.number} onChange={numberChange} />
-//             <br/>
-//             <label>Date</label>
-//             <br/>
-//             <input type="date" value={userInput.date} onChange={dateChange} />
-//              <br/>
-//              <br/>
-             
-//             <button type="submit">Add</button>
-//         </form>
-//     </div>
-//   )
-// }
-
-
-
-//3-metod
 const AddInputs = (props) => {
-const [title, setTitle] = useState('') 
-const [number, setNumber] = useState('') 
-const [date, setDate] = useState('') 
+const [title, setTitle] = useState('')
+const [number, setNumber] = useState('')
+const [date, setDate] = useState('')
+const [isValid, setIsValid] = useState(true);
 
-const buttonUser = (e) => {
-    e.preventDefault()
-    props.onTransfer(title,number,date);
+const titleChange = (event) => {
+    setTitle(event.target.value)
+    if (event.target.value.trim().length > 0) {
+        setIsValid(true);
+    }
+
+    }
+const numberChange = (event) => {
+    if (event.target.value.trim().length > 0) {
+        setIsValid(true);
+    }
+    setNumber(event.target.value)
 }
 
-// setState((prevState) => ({...prevState, title: event.target.value}))
+
+const dateChange = (event) => {
+    if (event.target.value.trim().length > 0) {
+        setIsValid(true);
+    }
+    setDate(event.target.value)
+}
+
+
+const buttonUser = (event) => {
+    if(title.trim().length===0){
+        setTitle (alert("Fill in the form"));
+        return;
+    }
+    if(number.trim().length===0){
+        setNumber (alert("Fill in the form"));
+        return;
+    }
+    if(date.trim().length===0){
+        setDate (alert("Fill in the form"));
+        return;
+    }
+
+
+event.preventDefault()
+props.onTransfer(title, number, date);
+setTitle('')
+setNumber('')
+setDate('')
+};
 
 return (
-    <div>
+    <Container>
+ 
+   
         <form  onSubmit={buttonUser}>
-            <label>Title</label>
+        
+            <Text className='input'>Title</Text>
             <br/>
-            <input 
-                 type="text" 
-                 value={title} 
-                 onChange={({target: {value}}) => setTitle(value)}/>
+         
+            <Input type="text" value={title}  onChange={titleChange} />
+       
             <br/>
-            <label>Amount</label>
+
+            <Text>Amount</Text>
             <br/>
-            <input 
-                 type="number" 
-                 value={number} 
-                 onChange={({target: {value}}) => setNumber(value)} />
+            <Input type="number" value={number} onChange={numberChange} />
             <br/>
-            <label>Date</label>
+            <Text>Date</Text>
             <br/>
-            <input 
-                 type="date"
-                 value={date} 
-                 onChange={({target: {value}}) => setDate(value)} />
+            <Input type="date" value={date} onChange={dateChange} />
              <br/>
              <br/>
-             
-            <button type="submit">Add</button>
+           
+             <Button type="submit">Add</Button>
         </form>
-    </div>
+      
+      
+    </Container>
   )
 }
 
-export default AddInputs
+
+
+
+export default AddInputs;
